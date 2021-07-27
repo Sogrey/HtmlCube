@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cube</title>
+    <style>
+        #cesium-plugin-cube {   
+            --base-size: 100px;         
+            /*立方体容器尺寸*/
+            width: var(--base-size);
+            height: var(--base-size);
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-family: fantasy, monospace;
+            font-weight: bold;
+            --cesium-view-cube-stroke-color: rgba(0, 0, 0, 0.3);
+            --cesium-view-cube-fill-color: rgba(210, 210, 210, 0.6);
+            /*立方体占容器尺寸的一半:--base-size/2*/
+            --cesium-view-cube-size: 50px;
+            /*各面偏移量占立方体尺寸的一半:--cesium-view-cube-size/2*/
+            --cesium-view-cube-half-of-size: 25px;
+            /*边界热点区域长宽，角落 h*h 横向边界 w*h 纵向边界 h*w */
+            /*h : --cesium-view-cube-size/10*/
+            --cesium-view-cube-boundary-hotspot-h: 5px;
+            /*w : --cesium-view-cube-size * (1-2/10)*/
+            --cesium-view-cube-boundary-hotspot-w: 40px;
+            /*坐标轴线宽,默认2px*/
+            --cesium-view-cube-axis-line-width-size: 2px;
+            /* transform: scale(2.0); */
+        }
+
+        #cesium-plugin-cube #cube {
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            transform-style: preserve-3d;
+            margin: auto;
+            position: relative;
+            will-change: transform;
+        }
+
+        #cesium-plugin-cube #cube>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            color: var(--cesium-view-cube-stroke-color);
+            background-color: var(--cesium-view-cube-fill-color);
+            border: 1px solid var(--cesium-view-cube-stroke-color);
+            box-shadow: 0px 0px 7px 1px #888888 inset;
+        }
+
+        #cesium-plugin-cube #cube>div:hover {
+            box-shadow: 0px 0px 7px 1px #228822 inset;
+        }
+
+        #cesium-plugin-cube #cube_side_t {
+            transform: rotateX(90deg) translateZ(var(--cesium-view-cube-half-of-size));
+        }
+
+        #cesium-plugin-cube #cube_side_w {
+            transform: rotateY(-90deg) translateZ(var(--cesium-view-cube-half-of-size));
+            border-right: var(--cesium-view-cube-axis-line-width-size) solid blue !important;
+            border-bottom: var(--cesium-view-cube-axis-line-width-size) solid green !important;
+        }
+
+        #cesium-plugin-cube #cube_side_s {
+            border-left: var(--cesium-view-cube-axis-line-width-size) solid blue !important;
+            border-bottom: var(--cesium-view-cube-axis-line-width-size) solid red !important;
+            transform: translateZ(var(--cesium-view-cube-half-of-size));
+        }
+
+        #cesium-plugin-cube #cube_side_e {
+            transform: rotateY(90deg) translateZ(var(--cesium-view-cube-half-of-size));
+        }
+
+        #cesium-plugin-cube #cube_side_n {
+            transform: rotateY(180deg) translateZ(var(--cesium-view-cube-half-of-size));
+        }
+
+        #cesium-plugin-cube #cube_side_b {
+            transform: rotateX(-90deg) translateZ(var(--cesium-view-cube-half-of-size));
+            border-top: var(--cesium-view-cube-axis-line-width-size) solid red !important;
+            border-left: var(--cesium-view-cube-axis-line-width-size) solid green !important;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position {
+            position: absolute;
+            background: transparent;
+        }
+
+        #cesium-plugin-cube #cube div.cube-side-position:hover {
+            background-color: #228822;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.corner {
+            width: var(--cesium-view-cube-boundary-hotspot-h);
+            height: var(--cesium-view-cube-boundary-hotspot-h);
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.edge-h {
+            width: var(--cesium-view-cube-boundary-hotspot-w);
+            height: var(--cesium-view-cube-boundary-hotspot-h);
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.edge-v {
+            width: var(--cesium-view-cube-boundary-hotspot-h);
+            height: var(--cesium-view-cube-boundary-hotspot-w);
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-lt {
+            top: 0;
+            left: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-t {
+            top: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-rt {
+            top: 0;
+            right: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-l {
+            left: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-r {
+            right: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-lb {
+            bottom: 0;
+            left: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-b {
+            bottom: 0;
+        }
+
+        #cesium-plugin-cube #cube .cube-side-position.position-rb {
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cesium-plugin-cube" class="cesium-plugin-cube">
+        <div id="cube" style="transform: rotateX(-0.381177rad) rotateY(0.239956rad);">
+            <div id="cube_side_t">TOP
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+            <div id="cube_side_w">W
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+            <div id="cube_side_s">S
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+            <div id="cube_side_e">E
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+            <div id="cube_side_n">N
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+            <div id="cube_side_b">BOTTOM
+                <div class='cube-side-position position-lt corner'></div>
+                <div class='cube-side-position position-t edge-h'></div>
+                <div class='cube-side-position position-rt corner'></div>
+                <div class='cube-side-position position-l edge-v'></div>
+                <div class='cube-side-position position-r edge-v'></div>
+                <div class='cube-side-position position-lb corner'></div>
+                <div class='cube-side-position position-b edge-h'></div>
+                <div class='cube-side-position position-rb corner'></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

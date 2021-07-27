@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>动画展示立体立方体</title>
+    <style>
+        .con{ position: relative;
+            width: 80%;
+            height: 900px;
+            margin: 0 auto;
+            perspective-origin:  0 1000px ;
+            perspective: 2000px;
+ 
+        }
+        .cubeBox{position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            /* 效果： 平面还是3d立体 */
+            transform-style: preserve-3d;
+        }
+        .cube{ position:absolute  ;
+            left: 50%;
+            margin-left: -151px;
+            width: 300px;
+            height: 300px;
+            line-height: 300px;
+            border: 1px dotted black;
+            text-indent:-9999px ;
+            font-size: 56px;
+            text-align: center;
+ 
+        }
+        .cube{
+            backface-visibility: visible;
+ 
+        }
+        .cubeBottom{
+            animation: KF_cubeBottom 2s  ease 1s both  ;
+            transform-origin:center bottom  ; /* :绕x旋转，确定y的高度 ： right bottom , 1px  300px, 2px  300px,.. 100px 300px .. */
+        }
+        .cubeTop{
+            animation: KF_cubeTop 2s  ease 3s both ;
+            transform-origin:center top ;/* :绕x旋转，确定y的高度 ：right top , center top ,1px 0px, 2px  0px,.. 100px 0px .. */
+        }
+        .cubeLeft{
+            animation: KF_cubeLeft 2s  ease 5s both ;
+            transform-origin:left center  ; /* :绕Y旋转，确定x  ： left bottom , left  300px, 0  300px,..0 500px .. */
+        }
+        .cubeRight{
+            animation: KF_cubeRight 2s  ease 7s both ;
+            transform-origin:right center ;/* :绕Y旋转，确定x ：right top , right 0 ,300px 100px, 300px  200px,.. 300px 0px .. */
+        }
+ 
+        .cubeFront{
+            animation: KF_cubeFront 2s  ease 9s both ;
+            transform:translateZ(0px);
+        }
+        .cubeBack{
+            animation: KF_cubeBack 2s  ease 0s both ;
+            transform:translateZ(-300px);
+        }
+ 
+  
+        @keyframes   KF_cubeBottom{
+            0%{ transform:none;  background: none; }
+            100%{
+                text-indent:0px ;
+                background: rgba(0,0,0,0.3);
+                transform: rotateX(90deg) ;
+            }
+        }
+ 
+        @keyframes   KF_cubeTop{
+            0%{ transform:none; }
+            100%{
+                text-indent:0px ;
+                transform: rotateX(-90deg) ;
+            }
+        }
+ 
+        @keyframes   KF_cubeLeft{
+            0%{ transform:none; }
+            100%{
+                text-indent:0px ;
+                transform: rotateY(90deg) ;
+            }
+        }
+        @keyframes   KF_cubeRight{
+            0%{ transform:none; }
+            100%{
+                text-indent:0px ;
+                transform: rotateY(-90deg) ;
+            }
+        }
+ 
+        @keyframes KF_cubeBack  {
+            0%{ transform:none; }
+            100%{
+                text-indent:0px ;
+                transform:translateZ(0px);
+            }
+        }
+        @keyframes KF_cubeFront  {
+            0%{ transform:none; }
+            100%{
+                text-indent:0px ;
+                transform:translateZ(-300px);
+            }
+        }
+ 
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="cubeBox">
+        <div class="cube cubeBack">back</div>
+        <div class="cube cubeBottom">Bottom</div>
+        <div class="cube cubeTop">Top</div>
+        <div class="cube cubeLeft">Left</div>
+        <div class="cube cubeRight">Right</div>
+        <div class="cube cubeFront">front</div>
+    </div>
+ 
+</div>
+ 
+</body>
+</html>

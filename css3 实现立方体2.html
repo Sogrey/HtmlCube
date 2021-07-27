@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cube</title>
+    <style>
+        #cesium-plugin-cube {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-family: fantasy, monospace;
+            font-weight: bold;
+            --cesium-view-cube-stroke-color: rgba(0, 0, 0, 0.6);
+            --cesium-view-cube-fill-color: rgba(210, 210, 210, 0.6);
+            /* transform: scale(2.0); */
+        }
+
+        #cesium-plugin-cube #cube {
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            transform-style: preserve-3d;
+            margin: auto;
+            position: relative;
+            will-change: transform;
+        }
+
+        #cesium-plugin-cube #cube>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 85%;
+            height: 85%;
+            user-select: none;
+            color: var(--cesium-view-cube-stroke-color);
+            background-color: var(--cesium-view-cube-fill-color);
+            border: 1px solid var(--cesium-view-cube-stroke-color);
+            box-shadow: 0px 0px 7px 1px #888888 inset;
+        }
+
+        #cesium-plugin-cube #cube>div.edge {
+            width: 85%;
+            height: 7%;
+            top: 40%;
+        }
+
+        #cesium-plugin-cube #cube>div.edgev {
+            width: 7%;
+            height: 85%;
+            left: 40%;
+        }
+
+        #cesium-plugin-cube #cube>div.vertex {
+            width: 7%;
+            height: 7%;
+            top: 40%;
+            left: 40%;
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube>div:hover {
+            box-shadow: 0px 0px 7px 1px #228822 inset;
+        }
+
+        #cesium-plugin-cube #cube_side_ts {
+            transform: rotate3d(1, 0, 0, 45deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bs {
+            transform: rotate3d(-1, 0, 0, 45deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_tn {
+            transform: rotate3d(1, 0, 0, 135deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bn {
+            transform: rotate3d(-1, 0, 0, 135deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_tw {
+            transform: rotateY(270deg) rotate3d(1, 0, 0, 45deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bw {
+            transform: rotateY(270deg) rotate3d(-1, 0, 0, 45deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_te {
+            transform: rotateY(270deg) rotate3d(1, 0, 0, 135deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_be {
+            transform: rotateY(270deg) rotate3d(-1, 0, 0, 135deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_es {
+            transform: rotateY(225deg) rotate3d(-1, 0, 0, 180deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_sw {
+            transform: rotateY(135deg) rotate3d(-1, 0, 0, 180deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_wn {
+            transform: rotateY(45deg) rotate3d(-1, 0, 0, 180deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_ne {
+            transform: rotateY(315deg) rotate3d(-1, 0, 0, 180deg) translateZ(33px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_tsw {
+            transform: rotateY(135deg) rotate3d(1, 0, 0, 145deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_twn {
+            transform: rotateY(45deg) rotate3d(1, 0, 0, 145deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_tne {
+            transform: rotateY(315deg) rotate3d(1, 0, 0, 145deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_tes {
+            transform: rotateY(225deg) rotate3d(1, 0, 0, 145deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bsw {
+            transform: rotateY(135deg) rotate3d(1, 0, 0, 215deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bwn {
+            transform: rotateY(45deg) rotate3d(1, 0, 0, 215deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bne {
+            transform: rotateY(315deg) rotate3d(1, 0, 0, 215deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_bes {
+            transform: rotateY(225deg) rotate3d(1, 0, 0, 215deg) translateZ(41px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+            /* background-color: #f00 !important; */
+        }
+
+        #cesium-plugin-cube #cube_side_s {
+            /* border-left: 2px solid blue !important;
+            border-bottom: 2px solid red !important; */
+            transform: translateZ(25px);
+        }
+
+        #cesium-plugin-cube #cube_side_t {
+            transform: rotatex(90deg) translateZ(25px);
+        }
+
+        #cesium-plugin-cube #cube_side_w {
+            transform: rotateY(-90deg) translateZ(25px);
+            /* border-right: 2px solid blue !important;
+            border-bottom: 2px solid green !important; */
+        }
+        
+        #cesium-plugin-cube #cube_side_e {
+            transform: rotateY(90deg) translateZ(25px);
+        }
+
+        #cesium-plugin-cube #cube_side_n {
+            transform: rotateY(180deg) translateZ(25px);
+        }
+
+        #cesium-plugin-cube #cube_side_b {
+            transform: rotateX(-90deg) translateZ(25px);
+            /* border-top: 2px solid red !important;
+            border-left: 2px solid green !important; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cesium-plugin-cube" class="cesium-plugin-cube">
+        <div id="cube" style="transform: rotateX(-0.381177rad) rotateY(0.239956rad);">
+            <div id="cube_side_t">TOP</div>
+            <div id="cube_side_w">W</div>
+            <div id="cube_side_s">S</div>
+            <div id="cube_side_e">E</div>
+            <div id="cube_side_n">N</div>
+            <div id="cube_side_b">BOTTOM</div>
+            <div id="cube_side_ts" class='edge'></div>
+            <div id="cube_side_bs" class='edge'></div>
+            <div id="cube_side_tn" class='edge'></div>
+            <div id="cube_side_bn" class='edge'></div>
+            <div id="cube_side_tw" class='edge'></div>
+            <div id="cube_side_bw" class='edge'></div>
+            <div id="cube_side_te" class='edge'></div>
+            <div id="cube_side_be" class='edge'></div>
+            <div id="cube_side_es" class='edgev'></div>
+            <div id="cube_side_sw" class='edgev'></div>
+            <div id="cube_side_wn" class='edgev'></div>
+            <div id="cube_side_ne" class='edgev'></div>
+            <!-- 
+            <div id="cube_side_tsw" class='vertex'></div>
+            <div id="cube_side_twn" class='vertex'></div>
+            <div id="cube_side_tne" class='vertex'></div>
+            <div id="cube_side_tes" class='vertex'></div>
+            <div id="cube_side_bsw" class='vertex'></div>
+            <div id="cube_side_bwn" class='vertex'></div>
+            <div id="cube_side_bne" class='vertex'></div>
+            <div id="cube_side_bes" class='vertex'></div> -->
+        </div>
+    </div>
+</body>
+
+</html>
